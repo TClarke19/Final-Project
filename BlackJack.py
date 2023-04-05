@@ -8,13 +8,18 @@ MONEYFILE = "money.txt"
 def title():
     print("\nBLACKJACK!\nBlackjack payout is 3:2")
 
+def read_file(FILENAME):
+    with open(FILENAME, "r") as file:
+        contents = file.readlines()
+        return contents
+
 def main():
     choice = "y"
 
     while choice.lower() == "y":
 
         title()
-        playerMoney = read_money_file(MONEYFILE)
+        playerMoney = read_file(MONEYFILE)
         print(f"\nMoney; {playerMoney}")
         playerBetAmount = input("Bet amount: ")
 
