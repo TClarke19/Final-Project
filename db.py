@@ -3,4 +3,6 @@ def read_money_file(MONEYFILE):
         file.read()
 
 def write_money_file(MONEYFILE):
-    pass
+    with open(MONEYFILE, "w") as file:
+        for amount in file:
+            file.write(amount)
