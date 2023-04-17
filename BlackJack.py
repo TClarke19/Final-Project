@@ -9,7 +9,7 @@ MONEYFILE = "money.txt" #file that records the amount of money the player has be
 #Lists used to create a deck of cards
 cardSuit = ["Hearts", "Diamonds", "Clubs", "Spades"]
 cardRank = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"]
-cardValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+#cardValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
 #Function to display the title of the program
 def title():
@@ -72,6 +72,7 @@ def main():
             print("Bet amount has to be greater than $5, and no more than $1000.")                        
 
         print("\nDEALER'S SHOW CARD:")
+        dealerHand.append(dealerCard)
         print(dealerCard[0])
 
         print("\nYOUR CARDS:")
@@ -99,7 +100,7 @@ def main():
                  dealerHand.append(get_top_card(deck))
                  print(f"\n{dealerHand[-1][0]}")
              if calculate_hand(dealerHand) > 21:
-                 print("Dealer bust! You win!")
+                 print("\nDealer bust! You win!")
                  print(f"\nYour total: {calculate_hand(playerHand)}")
                  print(f"Dealer's total: {calculate_hand(dealerHand)}")
                  playerMoney += playerBetAmount * 1.5
@@ -113,7 +114,7 @@ def main():
                  write_money_file(MONEYFILE, playerMoney)
                  break
              elif calculate_hand(playerHand) < calculate_hand(dealerHand):
-                 print("Sorry. You lose.")
+                 print("\nSorry. You lose.")
                  print(f"\nYour total: {calculate_hand(playerHand)}")
                  print(f"Dealer's total: {calculate_hand(dealerHand)}")
                  playerMoney -= playerBetAmount
@@ -123,7 +124,9 @@ def main():
                  playerMoney += playerBetAmount
                  write_money_file(MONEYFILE, playerBetAmount)
                  break
-
+        if playerMoney == 0.0:
+            print("\nLooks like you're out of money.")
+            break            
         choice = input("\nPlay again (y/n): ")
 
     print("\nCome back soon!\nBye!")
