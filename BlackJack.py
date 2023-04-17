@@ -1,24 +1,21 @@
 #!/usr/bin/env python3
 
-#import all modules from db
+#import all modules from db and the random module built in to python
 from db import *
 import random as r
 
-MONEYFILE = "D:\CNA ASD\Winter 2023\CP1856 Programming with Python\Final Project\money.txt"
-#CARDFILE = "cards.txt"
+MONEYFILE = "money.txt" #file that records the amount of money the player has before and after playing
 
+#Lists used to create a deck of cards
 cardSuit = ["Hearts", "Diamonds", "Clubs", "Spades"]
 cardRank = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"]
 cardValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
+#Function to display the title of the program
 def title():
     print("\nBLACKJACK!\nBlackjack payout is 3:2")
 
-def read_file(FILENAME):
-    with open(FILENAME, "r") as file:
-        contents = file.readlines()
-        return contents
-
+#Function to create a new deck of cards and shuffle it each time the program starts
 def deck_of_cards():
     deck = []
     for suit in cardSuit:
@@ -26,15 +23,14 @@ def deck_of_cards():
             card = [rank + " of " + suit, rank, suit]
             deck.append(card)
             r.shuffle(deck)
-            return deck
-            
-def get_top_card(deck):
-    if deck:
-        topCard = deck.pop(0)
-        return topCard
-    else:
-        return None
+    return deck
 
+#Function to get the first card in the shuffled deck            
+def get_top_card(deck):
+    topCard = deck.pop(0)
+    return topCard
+
+#Function to calculate the value of the player's or the dealer's hand of cards
 def calculate_hand(hand):
     total = 0
     for card in hand:
@@ -43,15 +39,20 @@ def calculate_hand(hand):
         elif card[1] in ['Jack', 'Queen', 'King']:
             total += 10
         else:
-            if total + 11 > 21:
+            if (total + 11) > 21:
                 total += 1
             else:
                 total += 11
     return total
 
+#The main function where the game is played and the main logic is contained
 def main():
+    deck = deck_of_cards()
+    #print(deck)
     playerHand = []
+    playerCard = get_top_card(deck)
     dealerHand = []
+    dealerCard = get_top_card(deck)
     choice = "y"
 
     while choice.lower() == "y":
@@ -67,18 +68,13 @@ def main():
             if playerBetAmount < 5 or playerBetAmount > 1000:
                 continue
         except ValueError:
-            print("Bet amount has to be greater than $5, and no more than $1000.")
-                            
-        deck = deck_of_cards()
-        playerCardOne = get_top_card(deck)
-        playerCardTwo = get_top_card(deck)
-        dealerCard = get_top_card(deck)
+            print("Bet amount has to be greater than $5, and no more than $1000.")                        
 
         print("\nDEALER'S SHOW CARD:")
         print(dealerCard[0])
 
         print("\nYOUR CARDS:")
-        for card in playerHand:
+        for card in playerCard:
             print(card[0])
 
         while True:
