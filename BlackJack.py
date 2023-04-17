@@ -47,16 +47,17 @@ def calculate_hand(hand):
 
 #The main function where the game is played and the main logic is contained
 def main():
-    deck = deck_of_cards()
-    #print(deck)
-    playerHand = []
-    playerCard = get_top_card(deck)
-    dealerHand = []
-    dealerCard = get_top_card(deck)
     choice = "y"
 
     while choice.lower() == "y":
         title()
+        deck = deck_of_cards()
+        #print(deck)
+        playerHand = []
+        playerCardOne = get_top_card(deck)
+        playerCardTwo = get_top_card(deck)
+        dealerHand = []
+        dealerCard = get_top_card(deck)
         try:
             playerMoney = read_money_file(MONEYFILE)
             print(f"\nMoney: {playerMoney}")
@@ -74,14 +75,17 @@ def main():
         print(dealerCard[0])
 
         print("\nYOUR CARDS:")
-        for card in playerCard:
+        playerHand.append(playerCardOne)
+        playerHand.append(playerCardTwo)
+        for card in playerHand:
             print(card[0])
+        
 
         while True:
          choice = input("\nHit or stay? (hit/stay): ")
          if choice.lower() == "hit":
              playerHand.append(get_top_card(deck))
-             print("YOUR CARDS:")
+             print("\nYOUR CARDS:")
              for card in playerHand:
                  print(card[0])
              if calculate_hand(playerHand) > 21:
@@ -112,10 +116,12 @@ def main():
                  print("Sorry. You lose.")
                  print(f"\nYour total: {calculate_hand(playerHand)}")
                  print(f"Dealer's total: {calculate_hand(dealerHand)}")
+                 playerMoney -= playerBetAmount
+                 write_money_file(MONEYFILE, playerMoney)
                  break
              else:
                  playerMoney += playerBetAmount
-                 write_money_file(MONEYFILE, playerMoney)
+                 write_money_file(MONEYFILE, playerBetAmount)
                  break
 
         choice = input("\nPlay again (y/n): ")
